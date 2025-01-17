@@ -36,10 +36,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-// Test Route
-app.get("/api/", (req, res) => {
-  res.send("Hello from server");
-});
+
 
 // Login Route
 app.post("/api/login", async (req, res) => {

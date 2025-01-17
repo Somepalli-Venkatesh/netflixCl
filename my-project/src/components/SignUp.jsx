@@ -23,7 +23,7 @@ const SignUp = () => {
 
     try {
       // Make the API request
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch("https://netflix-cl7.vercel.app/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

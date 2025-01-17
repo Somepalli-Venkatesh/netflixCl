@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 app.get('/', (req, res) => {
+    console.log('Hello world');
     return res.send('Hello world!');
 });
 

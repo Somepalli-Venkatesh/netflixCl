@@ -3,55 +3,42 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
 
 // Initialize Express app
 const app = express();
-app.use(cors({
-  origin: 'https://netflix-cl2.vercel.app', // Frontend URL
-  methods: ['GET', 'POST', 'OPTIONS'], // Allow necessary methods
-  credentials: true, // Allow cookies if needed
-}));
 
 // Middleware
 app.use(bodyParser.json());
+app.use(cors());
 
 // Connect to MongoDB
-const mongoURI = process.env.MONGO_URI;
-if (!mongoURI) {
-  console.error("MongoDB connection string (MONGO_URI) is missing.");
-  process.exit(1); // Exit the app if the environment variable is not set
-}
-
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
 
 // User Schema
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }, // Hashed password
+  password: { type: String, required: true },
 });
 
 const User = mongoose.model("User", userSchema);
-
-
 
 // Login Route
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Validate email and password
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({ message: "User not found. Please register first." });
     }
 
-    // Compare password with hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    if (user.password !== password) {
       return res.status(401).json({ message: "Invalid password." });
     }
 
@@ -67,9 +54,7 @@ app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ email, password });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -84,5 +69,5 @@ app.post("/api/signup", async (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

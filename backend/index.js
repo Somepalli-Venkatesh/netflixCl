@@ -7,7 +7,7 @@ const cors = require("cors");
 // Initialize Express app
 const app = express();
 app.use(cors({
-  origin: 'https://your-deployed-frontend.com',
+  origin: 'https://netflix-cl2.vercel.app',
   methods: ['GET', 'POST'],
   credentials: true,
 }));

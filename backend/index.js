@@ -6,6 +6,11 @@ const cors = require("cors");
 
 // Initialize Express app
 const app = express();
+app.use(cors({
+  origin: 'https://your-deployed-frontend.com',
+  methods: ['GET', 'POST'],
+  credentials: true,
+}));
 
 // Middleware
 app.use(bodyParser.json());

@@ -9,7 +9,13 @@ const app = express();
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(
+  {
+    origin: ["http://localhost:5173"],
+    methods: ["POST","GET"],
+    credentials:true
+  }
+));
 
 // Connect to MongoDB
 mongoose
@@ -26,8 +32,12 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+app.get('/', (req, res) => {
+    return res.send('Hello world!');
+});
+
 // Login Route
-app.post("/api/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -50,7 +60,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 // Signup Route
-app.post("/api/signup", async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
 
   try {

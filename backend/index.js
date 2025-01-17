@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors(
   {
-    origin: ["http://localhost:5173"],
+    origin: ["https://netflixclonefrontend.vercel.app"],
     methods: ["POST","GET"],
     credentials:true
   }

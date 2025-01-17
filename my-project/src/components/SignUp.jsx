@@ -23,7 +23,7 @@ const SignUp = () => {
 
     try {
       // Make the API request
-      const response = await fetch("http://localhost:5000/signup", {
+      const response = await fetch("https://netflixclone-liard-pi.vercel.app/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

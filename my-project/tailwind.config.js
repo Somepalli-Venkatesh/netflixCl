@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage:{
-        'main-bg':"url('/src/assets/images/netflix_main.jpg')",
+        'main-bg':"url('/src/assets/images/netflix_main_bg.png')",
       }
     },
   },
